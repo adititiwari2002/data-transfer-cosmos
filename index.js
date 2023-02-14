@@ -27,7 +27,6 @@ async function run() {
     let continuationToken = 1;
     let data = await readChangeFeed(pk, continuationToken);
     while (data.hasOwnProperty('count') && data.count > 0) {
-      continuationToken = data.continuationToken;
       console.log("New Batch: ");
       for (const item of data.items) {
         try {
@@ -36,6 +35,7 @@ async function run() {
           console.log(error)
         }
       }
+      continuationToken = data.continuationToken;
       data = await readChangeFeed(pk, continuationToken);
     }
   }
